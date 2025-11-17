@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吉他咪的人生之旅</title>
+    <style>
+        /* 全局样式设置 */
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFEAA7;
+            --background-color: #F8F9FA;
+            --text-color: #2D3436;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Comic Sans MS", "幼圆", "Microsoft YaHei", sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 屏幕基础样式 */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* 主界面样式 */
+        .main-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .main-container h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .character-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+
+        .cat-placeholder {
+            font-size: 6rem;
+            transform: rotate(15deg);
+        }
+
+        .game-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        .game-button:hover {
+            background-color: #FF5252;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+        }
+
+        /* 游戏场景样式 */
+        .game-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .scene-image {
+            height: 200px;
+            background-color: var(--secondary-color);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .scene-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            padding: 20px;
+            background-color: rgba(78, 205, 196, 0.1);
+            border-radius: 15px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            box-shadow: 0 3px 10px rgba(78, 205, 196, 0.2);
+        }
+
+        .option-button:hover {
+            background-color: #3DB6AA;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        /* 结果反馈样式 */
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background-color: rgba(255, 234, 167, 0.2);
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .result-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .result-button {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            display: block; /* 默认显示所有按钮，后续由JS控制 */
+        }
+
+        #like-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #okay-button {
+            background-color: #FFC107;
+            color: white;
+        }
+
+        #dislike-button {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .result-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* 评价页面样式 */
+        .evaluation-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .evaluation-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .evaluation-content {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .evaluation-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(150, 206, 180, 0.1);
+        }
+
+        .evaluation-item h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .evaluation-item p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container h1 {
+                font-size: 1.8rem;
+            }
+            
+            .game-container {
+                padding: 20px;
+            }
+            
+            .scene-image {
+                height: 150px;
+            }
+            
+            .result-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主页面 -->
+    <div id="main-screen" class="screen">
+        <div class="main-container">
+            <h1>吉他咪的人生之旅</h1>
+            <div class="character-image">
+                <div class="cat-placeholder">🐱</div>
+            </div>
+            <button id="start-button" class="game-button">开始游戏</button>
+        </div>
+    </div>
+
+    <!-- 游戏场景页面 -->
+    <div id="game-screen" class="screen hidden">
+        <div class="game-container">
+            <div id="scene-image" class="scene-image">
+                🏞️
+            </div>
+            <div id="scene-description" class="scene-description">
+                <!-- 场景描述将动态加载 -->
+            </div>
+            <div id="options-container" class="options-container">
+                <!-- 选项按钮将动态生成 -->
+            </div>
+            <div id="result-container" class="result-container hidden">
+                <div id="result-message" class="result-message"></div>
+                <div class="result-buttons">
+                    <button id="like-button" class="result-button">喜欢！</button>
+                    <button id="okay-button" class="result-button">好吧！</button>
+                    <button id="dislike-button" class="result-button">讨厌你！</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评价页面 -->
+    <div id="evaluation-screen" class="screen hidden">
+        <div class="evaluation-container">
+            <h2>吉他咪的人生评价</h2>
+            <div id="evaluation-content" class="evaluation-content">
+                <!-- 评价内容将动态生成 -->
+            </div>
+            <button id="restart-button" class="game-button">再来一次</button>
+        </div>
+    </div>
+
+    <script src="game_logic.js"></script>
+</body>
+</html>

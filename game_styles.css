@@ -1,0 +1,42 @@
+/* 在现有CSS基础上添加以下媒体查询 */
+@media (max-width: 600px) {
+    .main-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+    
+    .game-container {
+        padding: 15px;
+        max-width: 95%;
+    }
+    
+    .scene-image {
+        height: 150px;
+        font-size: 2rem;
+    }
+    
+    .option-button {
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    .result-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    
+    .evaluation-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+}
+
+/* 增强触摸体验 */
+.option-button, .game-button, .result-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.option-button:active, .game-button:active, .result-button:active {
+    transform: translateY(1px);
+}
